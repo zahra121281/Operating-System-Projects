@@ -11,6 +11,8 @@ typedef struct Employee
     struct Employee* Next ; 
 } employee ;
 
+
+
 employee* add(employee* head , char Name[] , int pos )
 {
     int i=1 ; 
@@ -23,9 +25,9 @@ employee* add(employee* head , char Name[] , int pos )
     if(pos ==0 )
     {
         new->Next = head ; 
-        head = new ; 
-        return head; 
+        return new; 
     }
+
     while (current!= NULL )
     {
         if(i ==pos )
@@ -63,18 +65,20 @@ employee* delete(employee* head , char Name[] )
 
 void swap(employee* head , char Name1[] , char Name2[] )
 {
-    employee* current = (employee*) malloc(sizeof(employee)); 
-    current = head ; 
-    char *headname = head->Name ; 
+    employee* current = head ; 
     while (current != NULL)
     {
         if(strcmp(current->Name,Name1) == 0 )
         {
-            current->Name = Name2 ; 
+            int m = strlen(Name2) +1 ;
+            current->Name = (char*) malloc(m* sizeof(char)) ; 
+            memcpy(current->Name , Name2 ,m*sizeof(char)); 
         }
         else if(strcmp(current->Name,Name2) == 0 )
         {
-            current->Name = Name1 ; 
+            int m = strlen(Name1) +1 ;
+            current->Name = (char*) malloc(m* sizeof(char)) ; 
+            memcpy(current->Name , Name1 ,m*sizeof(char)); 
         }
         current =current->Next ; 
 
@@ -86,14 +90,14 @@ int main()
     int num ; 
     scanf("%d" , &num ); 
     employee* head ;
-    employee* next =(employee*) malloc(sizeof(employee))  ; 
-    employee* current ; 
-    head = next  ; 
+    employee* next = (employee*) malloc(sizeof(employee))  ; 
+    employee* current = (employee*) malloc(sizeof(employee))  ;
+    head = next; 
     int i ;
     for(i=0 ; i < num ; i++ )
     {
         current = next ; 
-        char name[40] ; 
+        char name[60] ; 
         scanf("%s" , &name ) ;
         int m = strlen(name) +1 ;
         current->Name = (char*) malloc(m*sizeof(char)) ; 
@@ -101,44 +105,45 @@ int main()
         next = (employee*) malloc(sizeof(employee)) ; 
         current->Next = next ;
     }
+    
     current->Next = NULL ; 
-    current = head  ; 
-    int changes  ; 
+    next = NULL ; // ********************************
+    // current = head ; **********************************
+    int changes ; 
     scanf("%d" , &changes ) ; 
     for(i=0 ; i < changes ; i++ )
     {
-        char command[10] ; 
+        char command[60] ; 
         scanf("%s" , &command ) ; 
         if ( strcmp(command , "add")==0 ) 
         {
-            int place ; char name[25] ;
-            scanf("%s %d" , &name , &place )  ;  
+            int place ; char name[60] ;
+            scanf("%s %d" , &name , &place )  ; 
+            if( i==0 && num == 0 ) 
+                head = NULL ; 
             // printf("%s %d" , name , place )  ; 
             head = add(head , name , place ) ; 
         }
         else if (strcmp( command ,"delete")==0 )
         {
-            char name[25] ;
+            char name[60] ;
             scanf("%s" , &name )  ; 
             // printf("%s" , name )  ; 
             head=delete(head , name ) ;  
         }
         else //swap 
         {
-            char name1[25] ;char name2[25] ;
+            char name1[60] ;char name2[60] ;
             scanf("%s %s" , &name1,&name2 )  ;  
             // printf("%s %s" , name1,name2 )  ;  
             swap(head , name1 , name2 ) ; 
         }
-        
     }
 
     current = head ; 
-    while(current != NULL)
+    while(current != NULL && current->Name != "" )
     {
         printf("%s " , current->Name ) ; 
         current = current->Next ; 
     }
-    
-    
 }

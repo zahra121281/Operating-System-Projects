@@ -52,27 +52,37 @@ struct Group* MakeGroups(struct Student* students , int minIndex , int Snum)
     return groups ; 
 }
 
-void SortGroups(struct Group* groups , int Gnum )
+void SortGroups(struct Group* Groups , int Gnum )
 {
-    int i , j ; 
-    for(i=0; i<Gnum; i++)
-    {
-        for(j=i+1; j<Gnum ; j++) { 
-            struct Group temp ; 
-            if(groups[i].average >groups[j].average )
-            {
-                temp = groups[i];
-                groups[i] = groups[j];
-                groups[j] = temp;
-            }
-        }
-    }
+    // int i , j ; 
+    // for(i=0; i<Gnum; i++)
+    // {
+    //     for(j=i+1; j<Gnum ; j++) { 
+    //         struct Group temp ; 
+    //         if(groups[i].average >groups[j].average )
+    //         {
+    //             temp = groups[i];
+    //             groups[i] = groups[j];
+    //             groups[j] = temp;
+    //         }
+    //     }
+    // }
+    int i , j ;
+	for( i = 0; i < Gnum - 1; i++)
+		for( j = i + 1; j < Gnum; j++)
+			if(Groups[i].average < Groups[j].average){
+				struct Group temp = Groups[i];
+				Groups[i] = Groups[j];
+				Groups[j] = temp;
+			}
+
 }
 
 void PrintGroups(struct Group* groups ,struct Student* students , int Gnum ) 
 {
     int i ;  
-    for(i=Gnum-1 ; i >= 0 ; i-- )
+    // for(i=Gnum-1 ; i >= 0 ; i-- )
+    for(i=0 ; i< Gnum ; i++ )
     {
         int n = groups[i].group1; int m = groups[i].group2 ;
         //printf("i: %d g1: %d g2: %d average: %f \n" ,i, n , m, groups[i].average ) ;  
@@ -85,12 +95,6 @@ int main()
 {
     /*
         sample input :
-        5
-        Ava 30 200
-        Ethan 29 75
-        Mia 23 180
-        Noah 35 250
-        Isabella 27 160
         5
         Ava 30 200
         Ethan 29 75
@@ -124,7 +128,7 @@ int main()
         student.Name = (char*) malloc(m* sizeof(char)) ; 
         memcpy(student.Name, name,m*sizeof(char)); 
         students[i] = student ;
-        if( score <= minScore )
+        if( score < minScore )
         {
             minScore = score ; 
             minIndex = i ; 
