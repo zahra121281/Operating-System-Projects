@@ -1,0 +1,7 @@
+{
+    "iis.configDir": "",
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "pthread.h": "c"
+    }
+}
